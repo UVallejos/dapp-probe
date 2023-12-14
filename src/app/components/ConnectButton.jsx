@@ -1,13 +1,32 @@
-import { useWeb3Modal } from '@web3modal/wagmi/react'
+"use client";
+import React, { useState } from 'react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 
 export default function ConnectButton() {
   // 4. Use modal hook
-  const { open } = useWeb3Modal()
+  const { open, close } = useWeb3Modal();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleConnectClick = () => {
+    open();
+    setIsModalOpen(true);
+  };
+
+  const handleOpenNetworkClick = () => {
+    open({ view: 'Networks' });
+  };
+
+  const handleCloseModal = () => {
+    close();
+    setIsModalOpen(false);
+  };
 
   return (
     <>
-      <button onClick={() => open()}>Open Connect Modal</button>
-      <button onClick={() => open({ view: 'Networks' })}>Open Network Modal</button>
+      <button onClick={handleConnectClick}>Connect </button>
+      {isModalOpen && (
+        <button onClick={handleOpenNetworkClick}>Open Network Modal</button>
+      )}
     </>
-  )
+  );
 }
